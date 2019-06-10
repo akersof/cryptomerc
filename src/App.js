@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useContext, useState} from 'react';
 import './App.css';
+import {MetaMaskProvider, MetaMaskContext} from "./metamask";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <MetaMaskProvider>
+            <DashBoard />
+        </MetaMaskProvider>
     </div>
   );
 }
+
+const DashBoard = () => {
+    const metaMaskContext = useContext(MetaMaskContext);
+    return(
+        <>
+            <p>
+                {metaMaskContext.address}
+                <br />
+                {metaMaskContext.network}
+                <br />
+                {metaMaskContext.balance}
+                <br />
+            </p>
+        </>
+    );
+};
 
 export default App;
