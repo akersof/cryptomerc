@@ -1,4 +1,4 @@
-export const CONTRACT_CRYTO_MERC_ADDRESS = "0x6be204e348619687aebdc7aab2781bd905faebf9";
+export const CONTRACT_CRYTO_MERC_ADDRESS = "0x8db92c5ccebd4d0ee3d32ea1891da209140e917c";
 export const CONTRACT_CRYPTO_MERC_ABI = [
     {
         "constant": false,

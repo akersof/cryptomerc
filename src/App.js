@@ -1,31 +1,18 @@
-import React, {useContext, useState} from 'react';
+import React from 'react';
 import './App.css';
-import {MetaMaskProvider, MetaMaskContext} from "./metamask";
+import {MetaMaskProvider} from "./metamask";
+import {DappProvider} from "./dapp";
+import {CryptoMerc} from "./cryptomerc"
 
 function App() {
   return (
     <div className="App">
         <MetaMaskProvider>
-            <DashBoard />
+            <DappProvider>
+                <CryptoMerc />
+            </DappProvider>
         </MetaMaskProvider>
     </div>
   );
 }
-
-const DashBoard = () => {
-    const metaMaskContext = useContext(MetaMaskContext);
-    return(
-        <>
-            <p>
-                {metaMaskContext.address}
-                <br />
-                {metaMaskContext.network}
-                <br />
-                {metaMaskContext.balance}
-                <br />
-            </p>
-        </>
-    );
-};
-
 export default App;

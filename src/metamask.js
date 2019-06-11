@@ -16,6 +16,10 @@ export const MetaMaskProvider = ({children}) => {
 
 const metaMaskReducer = (state, action) => {
     switch(action.type) {
+        case 'INIT_CONNECTION':
+            return {...state, isLoading: true};
+        case 'CONNECTION_SUCCESS':
+            return {...state, isLoading: false};
         case 'DETECT_METAMASK':
             return {...state, isMetaMask: action.isMetaMask};
         case 'DETECT_ACCOUNT_CHANGE':
@@ -35,11 +39,11 @@ const metaMaskReducer = (state, action) => {
     }
 };
 
-const initialUserState = {isMetaMask: false, address: "0x0", network: ""};
+const initialUserState = {isMetaMask: false, address: "0x0", network: "", isLoading: true};
 const useMetaMask = () => {
     const [user, dispatch] = useReducer(metaMaskReducer, initialUserState);
     useEffect(() => {
-        //https://ethereum.stackexchange.com/questions/42768/how-can-i-detect-change-in-account-in-metamask
+        //TODO: https://ethereum.stackexchange.com/questions/42768/how-can-i-detect-change-in-account-in-metamask
         // window.onbeforeunload = function() {
         //    return "Prevent reload";
         //};
@@ -49,6 +53,7 @@ const useMetaMask = () => {
             dispatch({type: 'DETECT_NETWORK_CHANGE', network: netID});
         });
         (async () => {
+            dispatch({type: 'INIT_CONNECTION'});
             const address = (await window.ethereum.enable())[0];
             dispatch({type: "GET_ADDRESS", address: address});
             const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -58,6 +63,7 @@ const useMetaMask = () => {
             //TODO: find a way to get update on balance change.
             const balance = ethers.utils.formatEther(await provider.getBalance(address));
             dispatch({type: "GET_BALANCE", balance: balance});
+            dispatch({type: 'CONNECTION_SUCCESS'});
         })();
     }, [user.address, user.network]);
     return [user];
