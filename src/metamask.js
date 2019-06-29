@@ -4,10 +4,10 @@ import {ethers} from 'ethers';
 export const MetaMaskContext = React.createContext(null);
 
 export const MetaMaskProvider = ({children}) => {
-    const [userState] = useMetaMask();
+    const [metamask] = useMetaMask();
     return(
         <>
-            <MetaMaskContext.Provider value={userState}>
+            <MetaMaskContext.Provider value={metamask}>
                 {children}
             </MetaMaskContext.Provider>
         </>
@@ -41,7 +41,7 @@ const metaMaskReducer = (state, action) => {
 
 const initialUserState = {isMetaMask: false, address: "0x0", network: "", isLoading: true};
 const useMetaMask = () => {
-    const [user, dispatch] = useReducer(metaMaskReducer, initialUserState);
+    const [metamask, dispatch] = useReducer(metaMaskReducer, initialUserState);
     useEffect(() => {
         //TODO: https://ethereum.stackexchange.com/questions/42768/how-can-i-detect-change-in-account-in-metamask
         // window.onbeforeunload = function() {
@@ -65,6 +65,6 @@ const useMetaMask = () => {
             dispatch({type: "GET_BALANCE", balance: balance});
             dispatch({type: 'CONNECTION_SUCCESS'});
         })();
-    }, [user.address, user.network]);
-    return [user];
+    }, [metamask.address, metamask.network]);
+    return [metamask];
 };

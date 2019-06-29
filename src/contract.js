@@ -5,7 +5,7 @@ import {MetaMaskContext} from "./metamask";
 const contractReducer = (state, action) => {
     switch(action.type) {
         case "INIT":
-            return {...state, status: "init"}
+            return {...state, status: "init"};
         case 'LOADING':
             return {...state, status: "loading"};
         case 'ERROR':
@@ -29,25 +29,6 @@ export const useContract = (funcName, params) => {
             (async () => {
                 const result = await dappContext.contract.functions[funcName](...params);
                 dispatch({type:"SUCCESS", result: result});
-            })();}, [metaMaskContext.address, metaMaskContext.network, dappContext.ready]);
+            })();}, [metaMaskContext.address, metaMaskContext.network, dappContext.ready]); //TODO: is it redundant to add address and network
     return [state];
 };
-/*
-export const useIsRegistered = () =>  {
-    const dappContext = useContext(DappContext);
-    const metaMaskContext = useContext(MetaMaskContext);
-    const [isRegistered, setRegistered] = useState(false);
-    const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        if(dappContext.ready)
-        (async () => {
-            setLoading(true);
-            console.log(dappContext.contract);
-            const registered = await dappContext.contract.isRegistered(metaMaskContext.address);
-            setRegistered(registered);
-            setLoading(false);
-        })();}, [metaMaskContext.address, metaMaskContext.network, dappContext.ready]);
-    return [isRegistered, loading];
-};
-
-*/

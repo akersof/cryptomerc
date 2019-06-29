@@ -35,14 +35,15 @@ const useDapp = () => {
     useEffect(() => {
         (async () => {
             if(!metaMaskContext.isLoading) {
-                console.log("in usedapp metamask ready")
                 const contract = new ethers.Contract(CONTRACT_CRYTO_MERC_ADDRESS, CONTRACT_CRYPTO_MERC_ABI, metaMaskContext.provider);
+                console.log('contract');
+                console.log(contract);
                 dispatch({type: 'SET_CONTRACT', contract: contract});
                 const signer = contract.connect(metaMaskContext.provider.getSigner(metaMaskContext.address));
+                console.log('signer');
+                console.log(signer);
                 dispatch({type: 'SET_SIGNER', signer: signer});
                 dispatch({type: 'SET_ISREADY'});
-                console.log(contract);
-                console.log(signer);
             }
         })()
     }, [metaMaskContext.address, metaMaskContext.network, metaMaskContext.isLoading]);

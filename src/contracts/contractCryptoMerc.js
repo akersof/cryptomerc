@@ -105,3 +105,8 @@ export const CONTRACT_CRYPTO_MERC_ABI = [
         "type": "event"
     }
 ];
+
+// TODO need to wrap contract functions in a generic await call
+function isRegistered(contract, address) {
+
+}
